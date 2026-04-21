@@ -3,7 +3,7 @@
 
 <form action="belep" method="post">
     <fieldset>
-        <legend>Bejelentkezés</legend>
+        <legend>Belépés</legend>
         <br>
         <input type="text" name="felhasznalo" placeholder="Felhasználónév" required><br><br>
         <input type="password" name="jelszo" placeholder="Jelszó" required><br><br>
