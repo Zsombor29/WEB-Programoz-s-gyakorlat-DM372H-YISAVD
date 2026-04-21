@@ -1,4 +1,4 @@
-const apiUrl = 'api';
+const apiUrl = 'api.php';
 let isEditing = false;
 
 document.addEventListener("DOMContentLoaded", () => {
