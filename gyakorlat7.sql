@@ -17,6 +17,15 @@ CREATE TABLE `uzenetek` (
 ENGINE = MYISAM
 CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+
+CREATE TABLE rendeles (
+    az INT AUTO_INCREMENT PRIMARY KEY,
+    pizzanev VARCHAR(100) NOT NULL,
+    darab INT NOT NULL,
+    meret VARCHAR(10) NOT NULL,
+    vevonev VARCHAR(100) NOT NULL
+);
+
 CREATE TABLE `felhasznalok` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `csaladi_nev` varchar(45) NOT NULL default '',
