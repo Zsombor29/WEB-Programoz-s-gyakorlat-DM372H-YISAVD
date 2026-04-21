@@ -6,7 +6,7 @@
         <h2>Elérhetőségeink</h2>
         <ul class="contact-list">
             <li><strong>Cégnév:</strong> Pizza King</li>
-            <li><strong>Cím:</strong> 6000 Kecskemét, Pizza utca 10.</li>
+            <li><strong>Cím:</strong> 6000 Kecskemét, Izsáki út 10.</li>
             <li><strong>Telefon:</strong> +36 30 123 4567</li>
             <li><strong>E-mail:</strong> info@pizzaking.hu</li>
             <li><strong>Nyitvatartás:</strong> H-V: 10:00 - 22:00</li>
