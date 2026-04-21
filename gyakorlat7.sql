@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS `pizza_king_app`;
-CREATE DATABASE `pizza_king_app`
+DROP DATABASE IF EXISTS `dm372h`;
+CREATE DATABASE `dm372h`
 CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-USE `pizza_king_app`;
+USE `dm372h`;
 
 CREATE TABLE `uzenetek` (
   `id` int(10) unsigned NOT NULL auto_increment,

@@ -1,8 +1,10 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 header('Content-Type: application/json; charset=utf-8');
 
 try {
-    include('./includes/db.php');
+    include('../includes/db.php');
     $dbh = getDbConnection();
 } catch (PDOException $e) {
     http_response_code(500);
