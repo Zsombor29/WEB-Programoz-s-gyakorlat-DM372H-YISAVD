@@ -28,7 +28,7 @@ header h1, header h2, header p {
 }
 
 nav {
-    text-align: right;
+    text-align: left;
     font-weight: bold;
     font-size: 20px;
     padding: 15px 30px;
