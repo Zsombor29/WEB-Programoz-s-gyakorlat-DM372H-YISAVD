@@ -3,6 +3,13 @@ CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 USE `gyakorlat7`;
 
+CREATE TABLE uzenetek (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    bejelentkezes VARCHAR(50) DEFAULT 'Vendég',
+    uzenet TEXT NOT NULL,
+    datum DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE `felhasznalok` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `csaladi_nev` varchar(45) NOT NULL default '',
