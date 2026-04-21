@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS `gyakorlat7`;
-CREATE DATABASE `gyakorlat7`
+DROP DATABASE IF EXISTS `pizza_king_app`;
+CREATE DATABASE `pizza_king_app`
 CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-USE `gyakorlat7`;
+USE `pizza_king_app`;
 
 CREATE TABLE `uzenetek` (
   `id` int(10) unsigned NOT NULL auto_increment,
