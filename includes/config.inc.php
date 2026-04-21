@@ -4,7 +4,7 @@ $ablakcim = array(
 );
 
 $fejlec = array(
-    'kepforras' => 'logo.png',
+    'kepforras' => 'pizzaking.png',
     'kepalt' => 'Pizza King logó',
     'cim' => 'Pizza King',
     'motto' => 'Friss, forró, gyors pizzák'
