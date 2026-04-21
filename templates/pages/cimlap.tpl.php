@@ -11,7 +11,7 @@
     <div class="box">
         <h3>Saját videó</h3>
         <video controls width="100%">
-            <source src="./videos/short_video.mp4" type="video/mp4">
+            <source src="./videos/pizza.mp4" type="video/mp4">
             A böngésző nem támogatja a videó lejátszását.
         </video>
     </div>
