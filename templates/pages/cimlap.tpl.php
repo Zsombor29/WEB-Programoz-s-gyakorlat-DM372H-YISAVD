@@ -19,7 +19,7 @@
     <div class="box">
         <h3>YouTube videó</h3>
         <iframe
-            src="https://www.youtube-nocookie.com/embed/x3qeeUvylD4?rel=0"
+            src="https://www.youtube-nocookie.com/embed/pvOknGJcjw8?rel=0"
             title="Pizza bemutató videó"
             allow="autoplay; encrypted-media"
             allowfullscreen>
