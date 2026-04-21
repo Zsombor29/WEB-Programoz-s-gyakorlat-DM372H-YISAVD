@@ -1,14 +1,21 @@
+DROP DATABASE IF EXISTS `gyakorlat7`;
 CREATE DATABASE `gyakorlat7`
 CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 USE `gyakorlat7`;
 
-CREATE TABLE uzenetek (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    bejelentkezes VARCHAR(50) DEFAULT 'Vendég',
-    uzenet TEXT NOT NULL,
-    datum DATETIME DEFAULT CURRENT_TIMESTAMP
-);
+CREATE TABLE `uzenetek` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `nev` varchar(100) NOT NULL default 'Vendeg',
+  `email` varchar(100) NOT NULL default '',
+  `targy` varchar(255) NOT NULL default '',
+  `uzenet` text NOT NULL,
+  `bejelentkezes` varchar(50) DEFAULT 'Vendég',
+  `datum` datetime NOT NULL default current_timestamp,
+  PRIMARY KEY (`id`)
+)
+ENGINE = MYISAM
+CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 CREATE TABLE `felhasznalok` (
   `id` int(10) unsigned NOT NULL auto_increment,
@@ -16,7 +23,7 @@ CREATE TABLE `felhasznalok` (
   `uto_nev` varchar(45) NOT NULL default '',
   `bejelentkezes` varchar(12) NOT NULL default '',
   `jelszo` varchar(40) NOT NULL default '',
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY (`id`)
 )
 ENGINE = MYISAM
 CHARACTER SET utf8 COLLATE utf8_general_ci;
