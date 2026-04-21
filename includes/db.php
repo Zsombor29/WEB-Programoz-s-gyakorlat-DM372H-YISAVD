@@ -1,9 +1,9 @@
 <?php
 function getDbConnection() {
     $host = 'localhost';
-    $dbname = 'pizza_king_app';
-    $user = 'root';
-    $pass = '';
+    $dbname = 'dm372h';
+    $user = 'dm372h';
+    $pass = 'adatbazis';
     $port = '';
 
     $dsn = "mysql:host={$host};dbname={$dbname};charset=utf8mb4";

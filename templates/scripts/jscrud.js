@@ -1,4 +1,4 @@
-const apiUrl = 'api.php';
+const apiUrl = 'logicals/api.php';
 let isEditing = false;
 
 document.addEventListener("DOMContentLoaded", () => {
