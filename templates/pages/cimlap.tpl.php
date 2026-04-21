@@ -28,12 +28,7 @@
 
     <div class="box">
         <h3>Hol található a pizzériánk?</h3>
-        <iframe
-            src="https://www.google.com/maps?q=Budapest%20pizza%20restaurant&z=14&output=embed"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
-
+        
         <iframe 
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2726.339265601866!2d19.669227!3d46.896045799999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4743da7735640b05%3A0x1a33b25cfd691c16!2zS2Vjc2tlbcOpdCwgSXpzw6FraSDDunQgMTAsIDYwMDA!5e0!3m2!1shu!2shu!4v1776780025254!5m2!1shu!2shu"
             loading="lazy"
