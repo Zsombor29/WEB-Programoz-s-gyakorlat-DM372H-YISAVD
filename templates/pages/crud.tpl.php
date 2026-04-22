@@ -3,10 +3,10 @@
 <div id="uzenet"></div>
 
 <form id="rendelesForm" class="crud-form">
-    <div>
+    <!-- <div>
         <label>Azonosító:</label><br>
         <input type="number" id="az" readonly>
-    </div>
+    </div> -->
 
     <div>
         <label>Pizza neve:</label><br>
@@ -32,7 +32,7 @@
         <label>Vevő neve:</label><br>
         <input type="text" id="vevonev" required>
     </div>
-
+    <br>
     <button type="submit" id="mentesGomb">Mentés</button>
     <button type="button" onclick="formTorles()">Mégse</button>
 </form>
