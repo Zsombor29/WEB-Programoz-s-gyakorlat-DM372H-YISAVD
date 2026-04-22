@@ -3,10 +3,10 @@
 <div id="uzenet"></div>
 
 <form id="rendelesForm" class="crud-form">
-    <!-- <div>
+    <div style="display: none;">
         <label>Azonosító:</label><br>
         <input type="number" id="az" readonly>
-    </div> -->
+    </div>
 
     <div>
         <label>Pizza neve:</label><br>
