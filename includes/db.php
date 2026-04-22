@@ -1,9 +1,9 @@
 <?php
 function getDbConnection() {
     $host = 'localhost';
-    $dbname = 'pizza_king_app'; // A képed alapján módosítva
-    $user = 'root';             // XAMPP alapértelmezett
-    $pass = '';                 // XAMPP alapértelmezett (üres)
+    $dbname = 'dm372h'; 
+    $user = 'dm372h';          
+    $pass = 'adatbazis';                
     $port = '';
 
     $dsn = "mysql:host={$host};dbname={$dbname};charset=utf8mb4";
