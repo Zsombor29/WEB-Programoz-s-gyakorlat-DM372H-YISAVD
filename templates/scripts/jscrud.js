@@ -7,21 +7,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById('rendelesForm');
     if (!form) return;
 
+    beallitAutomatikusIdok();
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const az = document.getElementById('az').value;
-        const pizzanev = document.getElementById('pizzanev').value;
-        const darab = document.getElementById('darab').value;
-        const meret = document.getElementById('meret').value;
-        const vevonev = document.getElementById('vevonev').value;
+        const payload = {
+            eredetiFelvetel: document.getElementById('eredetiFelvetel').value,
+            pizzanev: document.getElementById('pizzanev').value,
+            darab: document.getElementById('darab').value,
+            felvetel: document.getElementById('felvetel').value,
+            kiszallitas: document.getElementById('kiszallitas').value
+        };
 
-        const payload = { az, pizzanev, darab, meret, vevonev };
         const method = isEditing ? 'PUT' : 'POST';
 
         try {
             const response = await fetch(apiUrl, {
-                method: method,
+                method,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
@@ -29,14 +32,14 @@ document.addEventListener("DOMContentLoaded", () => {
             const result = await response.json();
 
             if (result.status === 'sikeres') {
-                mutatUzenet(result.uzenet, "green");
+                mutatUzenet(result.uzenet, 'green');
                 formTorles();
                 fetchRendelesek();
             } else {
-                mutatUzenet("Hiba: " + result.uzenet, "red");
+                mutatUzenet('Hiba: ' + result.uzenet, 'red');
             }
         } catch (error) {
-            mutatUzenet("Hálózati hiba történt!", "red");
+            mutatUzenet('Hálózati hiba történt!', 'red');
         }
     });
 });
@@ -47,73 +50,82 @@ async function fetchRendelesek() {
         const data = await response.json();
         renderTable(data);
     } catch (error) {
-        mutatUzenet("Hiba az adatok betöltésekor!", "red");
+        mutatUzenet('Hiba az adatok betöltésekor!', 'red');
     }
 }
 
 function renderTable(data) {
     const tbody = document.getElementById('rendelesTablaBody');
     if (!tbody) return;
+
     tbody.innerHTML = '';
 
-    data.forEach(rendeles => {
+    data.forEach((rendeles) => {
+        const pizzanev = rendeles.pizzanev ?? '';
+        const darab = rendeles.darab ?? '';
+        const felvetel = rendeles.felvetel ?? '';
+        const kiszallitas = rendeles.kiszallitas ?? '';
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td>${rendeles.az}</td>
-            <td>${rendeles.pizzanev}</td>
-            <td>${rendeles.darab}</td>
-            <td>${rendeles.meret}</td>
-            <td>${rendeles.vevonev}</td>
-            <td>
-                <button onclick="editRendeles(${rendeles.az}, '${String(rendeles.pizzanev).replace(/'/g, "\\'")}', ${rendeles.darab}, '${String(rendeles.meret).replace(/'/g, "\\'")}', '${String(rendeles.vevonev).replace(/'/g, "\\'")}')">Szerkesztés</button>
-                <button onclick="deleteRendeles(${rendeles.az})">Törlés</button>
+            <td style="padding:10px; word-wrap:break-word;">${escapeHtml(pizzanev)}</td>
+            <td style="padding:10px;">${escapeHtml(String(darab))}</td>
+            <td style="padding:10px;">${escapeHtml(felvetel)}</td>
+            <td style="padding:10px;">${escapeHtml(kiszallitas)}</td>
+            <td style="padding:10px;">
+                <button type="button" onclick="editRendeles(
+                    '${jsEscape(pizzanev)}',
+                    '${jsEscape(String(darab))}',
+                    '${jsEscape(felvetel)}',
+                    '${jsEscape(kiszallitas)}'
+                )">Szerkesztés</button>
+                <button type="button" onclick="deleteRendeles('${jsEscape(felvetel)}')">Törlés</button>
             </td>
         `;
         tbody.appendChild(tr);
     });
 }
 
-function editRendeles(az, pizzanev, darab, meret, vevonev) {
-    document.getElementById('az').value = az;
+function editRendeles(pizzanev, darab, felvetel, kiszallitas) {
+    document.getElementById('eredetiFelvetel').value = felvetel;
     document.getElementById('pizzanev').value = pizzanev;
     document.getElementById('darab').value = darab;
-    document.getElementById('meret').value = meret;
-    document.getElementById('vevonev').value = vevonev;
+    document.getElementById('felvetel').value = felvetel;
+    document.getElementById('kiszallitas').value = kiszallitas;
 
-    document.getElementById('az').readOnly = true;
     isEditing = true;
-    document.getElementById('mentesGomb').textContent = "Módosítás";
+    document.getElementById('mentesGomb').textContent = 'Módosítás';
 }
 
-async function deleteRendeles(az) {
-    if (!confirm("Biztosan törölni szeretnéd?")) return;
+async function deleteRendeles(felvetel) {
+    if (!confirm('Biztosan törölni szeretnéd?')) return;
 
     try {
         const response = await fetch(apiUrl, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ az })
+            body: JSON.stringify({ felvetel })
         });
 
         const result = await response.json();
 
         if (result.status === 'sikeres') {
-            mutatUzenet(result.uzenet, "green");
+            mutatUzenet(result.uzenet, 'green');
             fetchRendelesek();
         } else {
-            mutatUzenet("Hiba a törlésnél!", "red");
+            mutatUzenet('Hiba a törlésnél!', 'red');
         }
     } catch (error) {
-        mutatUzenet("Hálózati hiba történt!", "red");
+        mutatUzenet('Hálózati hiba történt!', 'red');
     }
 }
 
 function formTorles() {
     document.getElementById('rendelesForm').reset();
-    document.getElementById('az').value = '';
-    document.getElementById('az').readOnly = false;
+    document.getElementById('eredetiFelvetel').value = '';
     isEditing = false;
-    document.getElementById('mentesGomb').textContent = "Mentés";
+    document.getElementById('mentesGomb').textContent = 'Mentés';
+    beallitAutomatikusIdok();
 }
 
 function mutatUzenet(szoveg, szin) {
@@ -121,5 +133,40 @@ function mutatUzenet(szoveg, szin) {
     if (!div) return;
     div.textContent = szoveg;
     div.style.color = szin;
-    setTimeout(() => div.textContent = '', 3000);
+    setTimeout(() => {
+        div.textContent = '';
+    }, 3000);
+}
+
+function beallitAutomatikusIdok() {
+    const now = new Date();
+    const pluszKettoOra = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+
+    document.getElementById('felvetel').value = formatDateTime(now);
+    document.getElementById('kiszallitas').value = formatDateTime(pluszKettoOra);
+}
+
+function formatDateTime(date) {
+    const ev = date.getFullYear();
+    const honap = String(date.getMonth() + 1).padStart(2, '0');
+    const nap = String(date.getDate()).padStart(2, '0');
+    const ora = String(date.getHours()).padStart(2, '0');
+    const perc = String(date.getMinutes()).padStart(2, '0');
+    const mp = String(date.getSeconds()).padStart(2, '0');
+    return `${ev}-${honap}-${nap} ${ora}:${perc}:${mp}`;
+}
+
+function escapeHtml(text) {
+    return String(text)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+}
+
+function jsEscape(text) {
+    return String(text)
+        .replaceAll('\\', '\\\\')
+        .replaceAll("'", "\\'");
 }
