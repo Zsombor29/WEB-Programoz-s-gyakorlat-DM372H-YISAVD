@@ -1,5 +1,6 @@
 const apiUrl = './logicals/api.php';
 let isEditing = false;
+let eredetiFelvetel = null;
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchRendelesek();
@@ -7,24 +8,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById('rendelesForm');
     if (!form) return;
 
-    beallitAutomatikusIdok();
-
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const payload = {
-            eredetiFelvetel: document.getElementById('eredetiFelvetel').value,
             pizzanev: document.getElementById('pizzanev').value,
             darab: document.getElementById('darab').value,
-            felvetel: document.getElementById('felvetel').value,
-            kiszallitas: document.getElementById('kiszallitas').value
+            eredetiFelvetel: eredetiFelvetel
         };
 
         const method = isEditing ? 'PUT' : 'POST';
 
         try {
             const response = await fetch(apiUrl, {
-                method,
+                method: method,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
@@ -56,43 +53,31 @@ async function fetchRendelesek() {
 
 function renderTable(data) {
     const tbody = document.getElementById('rendelesTablaBody');
-    if (!tbody) return;
-
     tbody.innerHTML = '';
 
-    data.forEach((rendeles) => {
-        const pizzanev = rendeles.pizzanev ?? '';
-        const darab = rendeles.darab ?? '';
-        const felvetel = rendeles.felvetel ?? '';
-        const kiszallitas = rendeles.kiszallitas ?? '';
-
+    data.forEach(rendeles => {
         const tr = document.createElement('tr');
+
         tr.innerHTML = `
-            <td style="padding:10px; word-wrap:break-word;">${escapeHtml(pizzanev)}</td>
-            <td style="padding:10px;">${escapeHtml(String(darab))}</td>
-            <td style="padding:10px;">${escapeHtml(felvetel)}</td>
-            <td style="padding:10px;">${escapeHtml(kiszallitas)}</td>
+            <td style="padding:10px;">${escapeHtml(rendeles.pizzanev)}</td>
+            <td style="padding:10px;">${escapeHtml(rendeles.darab)}</td>
+            <td style="padding:10px;">${escapeHtml(rendeles.felvetel)}</td>
+            <td style="padding:10px;">${escapeHtml(rendeles.kiszallitas)}</td>
             <td style="padding:10px;">
-                <button type="button" onclick="editRendeles(
-                    '${jsEscape(pizzanev)}',
-                    '${jsEscape(String(darab))}',
-                    '${jsEscape(felvetel)}',
-                    '${jsEscape(kiszallitas)}'
-                )">Szerkesztés</button>
-                <button type="button" onclick="deleteRendeles('${jsEscape(felvetel)}')">Törlés</button>
+                <button type="button" onclick="editRendeles('${jsEscape(rendeles.pizzanev)}', '${jsEscape(rendeles.darab)}', '${jsEscape(rendeles.felvetel)}')">Szerkesztés</button>
+                <button type="button" onclick="deleteRendeles('${jsEscape(rendeles.felvetel)}')">Törlés</button>
             </td>
         `;
+
         tbody.appendChild(tr);
     });
 }
 
-function editRendeles(pizzanev, darab, felvetel, kiszallitas) {
-    document.getElementById('eredetiFelvetel').value = felvetel;
+function editRendeles(pizzanev, darab, felvetel) {
     document.getElementById('pizzanev').value = pizzanev;
     document.getElementById('darab').value = darab;
-    document.getElementById('felvetel').value = felvetel;
-    document.getElementById('kiszallitas').value = kiszallitas;
 
+    eredetiFelvetel = felvetel;
     isEditing = true;
     document.getElementById('mentesGomb').textContent = 'Módosítás';
 }
@@ -104,7 +89,7 @@ async function deleteRendeles(felvetel) {
         const response = await fetch(apiUrl, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ felvetel })
+            body: JSON.stringify({ felvetel: felvetel })
         });
 
         const result = await response.json();
@@ -122,42 +107,23 @@ async function deleteRendeles(felvetel) {
 
 function formTorles() {
     document.getElementById('rendelesForm').reset();
-    document.getElementById('eredetiFelvetel').value = '';
+    eredetiFelvetel = null;
     isEditing = false;
     document.getElementById('mentesGomb').textContent = 'Mentés';
-    beallitAutomatikusIdok();
 }
 
 function mutatUzenet(szoveg, szin) {
     const div = document.getElementById('uzenet');
-    if (!div) return;
     div.textContent = szoveg;
     div.style.color = szin;
+
     setTimeout(() => {
         div.textContent = '';
     }, 3000);
 }
 
-function beallitAutomatikusIdok() {
-    const now = new Date();
-    const pluszKettoOra = new Date(now.getTime() + 2 * 60 * 60 * 1000);
-
-    document.getElementById('felvetel').value = formatDateTime(now);
-    document.getElementById('kiszallitas').value = formatDateTime(pluszKettoOra);
-}
-
-function formatDateTime(date) {
-    const ev = date.getFullYear();
-    const honap = String(date.getMonth() + 1).padStart(2, '0');
-    const nap = String(date.getDate()).padStart(2, '0');
-    const ora = String(date.getHours()).padStart(2, '0');
-    const perc = String(date.getMinutes()).padStart(2, '0');
-    const mp = String(date.getSeconds()).padStart(2, '0');
-    return `${ev}-${honap}-${nap} ${ora}:${perc}:${mp}`;
-}
-
 function escapeHtml(text) {
-    return String(text)
+    return String(text ?? '')
         .replaceAll('&', '&amp;')
         .replaceAll('<', '&lt;')
         .replaceAll('>', '&gt;')
@@ -166,7 +132,7 @@ function escapeHtml(text) {
 }
 
 function jsEscape(text) {
-    return String(text)
+    return String(text ?? '')
         .replaceAll('\\', '\\\\')
         .replaceAll("'", "\\'");
 }
